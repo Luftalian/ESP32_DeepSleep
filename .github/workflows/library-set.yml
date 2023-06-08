@@ -1,0 +1,21 @@
+name: Dispatch
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Dispatch1
+        env:
+          MY_SECRET: ${{ secrets.UPDATE_SUBMODULE }}
+        if: env.MY_SECRET != null && github.run_number == 1
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.UPDATE_SUBMODULE }}
+          repository: CREATE-ROCKET/Avi_ESP_Libs
+          event-type: repository
+          client-payload: '{"repo": "${{ github.repository }}"}'
