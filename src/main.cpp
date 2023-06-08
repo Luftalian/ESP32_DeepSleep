@@ -1,8 +1,5 @@
 #include <Arduino.h>
 
-#include <SPICREATE.h>
-#include "utils/example.h"
-
 #define uS_TO_S_FACTOR 1000000ULL /* Conversion factor for micro seconds to seconds */
 #define TIME_TO_SLEEP 5 * 60      /* Time ESP32 will go to sleep (in seconds) */
 
