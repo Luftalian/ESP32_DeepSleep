@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
 #define uS_TO_S_FACTOR 1000000ULL /* Conversion factor for micro seconds to seconds */
-#define TIME_TO_SLEEP 5 * 60      /* Time ESP32 will go to sleep (in seconds) */
+#define TIME_TO_SLEEP 10 // 5 * 60      /* Time ESP32 will go to sleep (in seconds) */
 
 RTC_DATA_ATTR int bootCount = 0;
 
@@ -63,19 +63,27 @@ void setup()
     esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
     Serial.println("Setup ESP32 to sleep for every " + String(TIME_TO_SLEEP) + " Seconds");
 
-    esp_sleep_enable_ext0_wakeup(GPIO_NUM_33, ESP_EXT1_WAKEUP_ANY_HIGH); // GPIO_NUM_?, ? = {0, 2, 4, 12-15, 25-27, 32-39}
+    esp_sleep_enable_ext0_wakeup(GPIO_NUM_33, ESP_EXT1_WAKEUP_ANY_HIGH); // GPIO_NUM_?, ? = {0, 2, 4, 12-15, 25-27, 32-39}, {ESP_EXT1_WAKEUP_ALL_LOW or ESP_EXT1_WAKEUP_ANY_HIGH}
 
     print_wakeup_reason(); // Setting the above two esp_sleep_enable_x former makes ESP32's move right when ESP32 will sleep in this function in case that wake_up_reason is ESP_SLEEP_WAKEUP_TIMER.
-
 }
 
 void loop()
 {
-    if (something_action_by_transaction())
+    // if (something_action_by_transaction())
+    // {
+    char a;
+    if (Serial.available())
+    {
+        a = Serial.read();
+        Serial.println(a);
+    }
+    if (a == 'a')
     {
         Serial.println("Going to sleep now");
         Serial.flush();
 
         esp_deep_sleep_start();
     }
+    // }
 }
