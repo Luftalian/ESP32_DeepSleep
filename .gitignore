@@ -8,3 +8,4 @@ src/*
 !src/main.cpp
 !src/*/
 !src/README.md
+logs/*
